@@ -20,7 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Post Login
 Route::post('login', [AuthController::class, 'login']);
+
+//Post Logout
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 //Product
 

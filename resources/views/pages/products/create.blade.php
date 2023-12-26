@@ -39,7 +39,7 @@
                 <h2 class="section-title">Products</h2>
                 <p class="section-lead">We provide advanced input fields, such as date picker, color picker, and so on.</p>
                         <div class="card">
-                            <form action="{{ route('product.store') }}" method="POST">
+                            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-header">
                                     <h4>Input Text</h4>
@@ -85,6 +85,17 @@
                                             <option value="drink">Drink</option>
                                             <option value="snack">Snack</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image Product</label>
+                                        <input type="file" class="form-control @error('image')
+                                            is-invalid
+                                        @enderror" name="image">
+                                        @error('image')
+                                            <div class="invalid-feedback">
+                                                {{$message}}
+                                            </div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">

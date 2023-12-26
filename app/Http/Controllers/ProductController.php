@@ -25,8 +25,26 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request -> validate([
+            'name' => 'required|min:3|unique:products',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'category' => 'required|in:food,drink,snack',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+        //Memberikan Nama File Image
+        $filename = time().'.'.$request->image->extension();
+        //Upload Image ke Folder Public/Storage/Images
+        $request->image->storeAs('public/products', $filename);
         $data = $request->all();
-        Product::create($data);
+
+        $product = new Product();
+        $product->name = $request->name;
+        $product->price = (int) $request->price;
+        $product->stock = (int) $request->stock;
+        $product->category = $request->category;
+        $product->image = $filename;
+        $product->save();
         return redirect()->route('product.index')->with('success', 'Product successfully created');
     }
 
@@ -38,7 +56,16 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $filename = time().'.'.$request->image->extension();
+        $request->image->storeAs('public/products', $filename);
         $data = $request->all();
+
+        $data['name'] = $request->name;
+        $data['price'] = (int) $request->price;
+        $data['stock'] = (int) $request->stock;
+        $data['category'] = $request->category;
+        $data['image'] = $filename;
+
         $product = Product::findOrFail($id);
         $product->update($data);
         return redirect()->route('product.index')->with('success', 'Product successfully updated');

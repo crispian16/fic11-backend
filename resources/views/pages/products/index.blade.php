@@ -77,7 +77,17 @@
                                                 <td>{{$product->price}}</td>
                                                 <td>{{$product->stock}}</td>
                                                 <td>{{$product->created_at}}</td>
-                                                <td><img src="{{ $product->image }}" alt="Product Image" width="100" class="img-thumbnail m-2"></td>
+                                                <td>
+                                                    @if (!empty($product->image))
+                                                        @if (filter_var($product->image, FILTER_VALIDATE_URL))
+                                                            <img src="{{ $product->image }}" alt="Product Image" width="100" class="img-thumbnail m-2">
+                                                        @else
+                                                            <img src="{{ asset('storage/products/'.$product->image) }}" alt="Product Image" width="100" class="img-thumbnail m-2">
+                                                        @endif
+                                                    @else
+                                                        <span class="badge badge-danger">No Image</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('product.edit', $product->id) }}' class="btn btn-sm btn-info btn-icon">

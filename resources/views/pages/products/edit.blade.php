@@ -40,7 +40,7 @@
                 <p class="section-lead">We provide advanced input fields, such as date picker, color picker, and so on.</p>
 
                         <div class="card">
-                            <form action="{{ route('product.update', $product) }}" method="POST">
+                            <form action="{{ route('product.update', $product) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-header">
@@ -94,6 +94,27 @@
                                             @endif>Snack</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Image Product</label>
+                                        <input type="file" class="form-control @error('image')
+                                            is-invalid
+                                        @enderror" name="image">
+                                        @error('image')
+                                            <div class="invalid-feedback">
+                                                {{$message}}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    @if (!empty($product->image))
+                                        @if (filter_var($product->image, FILTER_VALIDATE_URL))
+                                            <img src="{{ $product->image }}" alt="Product Image" width="100" class="img-thumbnail m-2">
+                                        @else
+                                            <img src="{{ asset('storage/products/'.$product->image) }}" alt="Product Image" width="100" class="img-thumbnail m-2">
+                                        @endif
+                                    @else
+                                        <span class="badge badge-danger">No Image</span>
+                                    @endif
+                                </div>
                                 <div class="card-footer text-right">
                                     <button class="btn btn-primary">Submit</button>
                                 </div>
