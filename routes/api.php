@@ -27,5 +27,4 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 //Product
-
 Route::apiResource('products', ProductController::class)->middleware('auth:sanctum');
