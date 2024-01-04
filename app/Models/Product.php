@@ -11,10 +11,10 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'description',
         'price',
         'stock',
         'category',
         'image',
+        'is_best_seller'
     ];
 }
